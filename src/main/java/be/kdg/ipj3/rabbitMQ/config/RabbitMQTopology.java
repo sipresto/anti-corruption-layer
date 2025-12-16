@@ -23,7 +23,7 @@ public class RabbitMQTopology {
         return new TopicExchange(TURN_NOTIFICATIONS_EXCHANGE);
     }
 
-    //Recieve
+    //Receive
     @Bean
     Queue registerGameQueue() {
         return QueueBuilder.durable(ACL_REGISTER_QUEUE).build();

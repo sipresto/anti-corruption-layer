@@ -1,7 +1,7 @@
 package be.kdg.ipj3.service;
 
-import be.kdg.ipj3.rabbitMQ.messageReciever.dto.RegisterAchievementInputDto;
-import be.kdg.ipj3.rabbitMQ.messageReciever.dto.RegisterGameInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.RegisterAchievementInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.RegisterGameInputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.MessageSendHandler;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.RegisterAchievementOutputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.RegisterGameOutputDto;
@@ -45,7 +45,7 @@ public class AclService {
                 message.frontendUrl(),
                 "Every piece has a set of moves they can do, if you are checked you can only move to prevent being checked, if you get checkmated you lose.",
                 transformedAchievements,
-                List.of("STRATEGY", "BOARDGAME"),
+                List.of("STRATEGY", "BOARDGAME","EXTERNAL"),
                 message.pictureUrl(),
                 outputTimestamp.toString()
         );

@@ -1,4 +1,4 @@
-package be.kdg.ipj3.rabbitMQ.messageReciever.dto;
+package be.kdg.ipj3.rabbitMQ.messageReceiver.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
