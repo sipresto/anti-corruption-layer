@@ -1,8 +1,8 @@
-package be.kdg.ipj3.rabbitMQ.messageSender.dto;
+package be.kdg.ipj3.rabbitMQ.messageReciever.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record RegisterAchievementMessageDto(
+public record RegisterAchievementInputDto(
 @NotBlank String code,
 @NotBlank String description
 ) {
