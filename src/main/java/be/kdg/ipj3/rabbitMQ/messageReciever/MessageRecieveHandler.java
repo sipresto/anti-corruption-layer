@@ -15,7 +15,7 @@ public class MessageRecieveHandler {
         this.aclService = aclService;
     }
 
-    @RabbitListener(queues = RabbitMQTopology.GAME_EVENTS_EXCHANGE)
+    @RabbitListener(queues = RabbitMQTopology.REGISTER_GAME_EXCHANGE)
     void onGameRegistrationMessageRecieved(RegisterGameMessageDto message) {
         aclService.gameRegistrationTransformation(message);
     }

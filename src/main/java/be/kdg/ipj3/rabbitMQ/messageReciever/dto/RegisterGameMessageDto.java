@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 public record RegisterGameMessageDto(
-        @NotNull UUID id,
-        String name,
-        String description,
+        @NotNull UUID registrationId,
         @NotBlank String frontendUrl,
-        String imageUrl,
-        List<RegisterAchievementMessageDto> achievements,
+        String pictureUrl,
+        List<RegisterAchievementMessageDto> availableAchievements,
         @NotNull Instant timestamp
-) {
-}
+) {}
