@@ -4,7 +4,7 @@ import be.kdg.ipj3.rabbitMQ.messageSender.dto.RegisterAchievementMessageDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,5 +13,5 @@ public record RegisterGameMessageDto(
         @NotBlank String frontendUrl,
         String pictureUrl,
         List<RegisterAchievementMessageDto> availableAchievements,
-        @NotNull Instant timestamp
+        @NotNull LocalDateTime timestamp
 ) {}
