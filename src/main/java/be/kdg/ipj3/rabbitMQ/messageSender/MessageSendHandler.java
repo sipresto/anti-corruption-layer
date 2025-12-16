@@ -1,9 +1,12 @@
 package be.kdg.ipj3.rabbitMQ.messageSender;
 
 import be.kdg.ipj3.rabbitMQ.config.RabbitMQTopology;
+import be.kdg.ipj3.rabbitMQ.messageReciever.dto.RegisterGameMessageDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.GameResultMessageDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MessageSendHandler {
 
     private final RabbitTemplate rabbitTemplate;
@@ -17,6 +20,11 @@ public class MessageSendHandler {
         this.rabbitTemplate.convertAndSend(RabbitMQTopology.GAME_EVENTS_EXCHANGE,
                 "game.result.acl",
                 game);
+    }
+
+    public void registerGame(RegisterGameMessageDto game){
+        this.rabbitTemplate.convertAndSend(RabbitMQTopology.GAME_EVENTS_EXCHANGE,
+                "game.register.acl", game);
     }
 
 
