@@ -1,4 +1,4 @@
-package be.kdg.ipj3.rabbitMQ.messageSender.dto;
+package be.kdg.ipj3.rabbitMQ.messageSender.dto.registration;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,4 +19,5 @@ public record RegisterGameOutputDto(
         List<String> categories,
         String imageUrl,
         @NotNull String timestamp
-) {}
+) {
+}

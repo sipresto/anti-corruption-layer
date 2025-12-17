@@ -1,8 +1,7 @@
-package be.kdg.ipj3.rabbitMQ.messageReceiver.dto;
+package be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,4 +14,5 @@ public record RegisterGameInputDto(
         List<RegisterAchievementInputDto> availableAchievements,
         @NotNull LocalDateTime timestamp,
         String messageType
-) {}
+) {
+}
