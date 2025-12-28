@@ -1,5 +1,6 @@
 stages:
   - compile
+  - test
   - package
 
 variables:
