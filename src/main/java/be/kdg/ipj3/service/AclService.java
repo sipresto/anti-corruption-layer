@@ -48,7 +48,8 @@ public class AclService {
                 transformedAchievements,
                 List.of("STRATEGY", "BOARDGAME", "EXTERNAL"),
                 message.pictureUrl(),
-                transformedDate.toString()
+                transformedDate.toString(),
+                2
         );
 
         log.info(outputMessage.toString());
