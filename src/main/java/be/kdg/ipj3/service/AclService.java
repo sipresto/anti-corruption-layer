@@ -1,10 +1,12 @@
 package be.kdg.ipj3.service;
 
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.AchievementInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.MoveMadeInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterAchievementInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterGameInputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.MessageSendHandler;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.AchievementOutputDto;
+import be.kdg.ipj3.rabbitMQ.messageSender.dto.TurnNotificationDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.registration.RegisterAchievementOutputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.registration.RegisterGameOutputDto;
 import org.slf4j.Logger;
@@ -26,6 +28,25 @@ public class AclService {
 
     public AclService(MessageSendHandler messageSendHandler) {
         this.messageSendHandler = messageSendHandler;
+    }
+
+    public void gameNotificationTransformation(MoveMadeInputDto message) {
+        log.info(message.toString());
+
+        String playerId = "";
+        if(message.player().equals("WHITE")) {
+            playerId = message.blackPlayerId().toString();
+        }
+        if(message.player().equals("BLACK")) {
+            playerId = message.whitePlayerId().toString();
+        }
+
+        var notifDto = new TurnNotificationDto(
+                playerId,
+                "It's your turn in Chess!"
+        );
+
+        messageSendHandler.sendTurnNotification(notifDto);
     }
 
     public void gameRegistrationTransformation(RegisterGameInputDto message) {

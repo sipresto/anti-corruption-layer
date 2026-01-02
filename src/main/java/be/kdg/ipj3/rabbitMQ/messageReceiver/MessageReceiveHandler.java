@@ -2,6 +2,7 @@ package be.kdg.ipj3.rabbitMQ.messageReceiver;
 
 import be.kdg.ipj3.rabbitMQ.config.RabbitMQTopology;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.AchievementInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.MoveMadeInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterGameInputDto;
 import be.kdg.ipj3.service.AclService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -26,5 +27,9 @@ public class MessageReceiveHandler {
         aclService.achievementTransformation(message);
     }
 
+    @RabbitListener(queues = RabbitMQTopology.MOVEMADE_QUEUE)
+    void onMoveMadeMessageReceived(MoveMadeInputDto message) {
+        aclService.gameNotificationTransformation(message);
+    }
 
 }

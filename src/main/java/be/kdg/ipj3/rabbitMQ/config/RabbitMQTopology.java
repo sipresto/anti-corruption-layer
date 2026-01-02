@@ -15,6 +15,9 @@ public class RabbitMQTopology {
     public static final String GAME_REGISTRATION_QUEUE = "game-registration-queue";
     public static final String ACHIEVEMENT_COMPLETED_QUEUE = "achievement-completed-queue";
 
+    public static final String MOVEMADE_QUEUE = "move-made-queue";
+    public static final String TURN_NOTIFICATION_QUEUE = "turn-notification-queue";
+
     @Bean
     public TopicExchange gameEventsExchange() {
         return new TopicExchange(GAME_EVENTS_EXCHANGE);
@@ -36,6 +39,18 @@ public class RabbitMQTopology {
         return BindingBuilder.bind(registerGameQueue)
                 .to(gameEventsExchange)
                 .with("game.registered");
+    }
+
+    @Bean
+    Queue moveMadeQueue() {
+        return QueueBuilder.durable(MOVEMADE_QUEUE).build();
+    }
+
+    @Bean
+    Binding moveMadeBinding(Queue moveMadeQueue, TopicExchange gameEventsExchange) {
+        return BindingBuilder.bind(moveMadeQueue)
+                .to(gameEventsExchange)
+                .with("move.made");
     }
 
     @Bean
@@ -74,6 +89,17 @@ public class RabbitMQTopology {
         return BindingBuilder.bind(achievementCompletedQueue)
                 .to(gameEventsExchange)
                 .with("achievement.completed.*");
+    }
+
+    @Bean
+    Queue turnNotificationQueue() {
+        return QueueBuilder.durable(TURN_NOTIFICATION_QUEUE).build();
+    }
+    @Bean
+    Binding turnNotificationBinding(Queue turnNotificationQueue, TopicExchange notificationsExchange) {
+        return BindingBuilder.bind(turnNotificationQueue)
+                .to(notificationsExchange)
+                .with("turn.notification.*");
     }
 
 }
