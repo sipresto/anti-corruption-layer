@@ -13,6 +13,7 @@ public record RegisterGameOutputDto(
         String name,
         String description,
         BigDecimal price,
+        @NotBlank String backendUrl,
         @NotBlank String frontendUrl,
         @Size(max = 2000) String rules,
         List<RegisterAchievementOutputDto> achievements,

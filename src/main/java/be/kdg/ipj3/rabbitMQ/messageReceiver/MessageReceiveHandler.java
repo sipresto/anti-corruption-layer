@@ -2,6 +2,8 @@ package be.kdg.ipj3.rabbitMQ.messageReceiver;
 
 import be.kdg.ipj3.rabbitMQ.config.RabbitMQTopology;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.AchievementInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.GameCreatedInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.GameEndInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.MoveMadeInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterGameInputDto;
 import be.kdg.ipj3.service.AclService;
@@ -30,6 +32,16 @@ public class MessageReceiveHandler {
     @RabbitListener(queues = RabbitMQTopology.MOVEMADE_QUEUE)
     void onMoveMadeMessageReceived(MoveMadeInputDto message) {
         aclService.gameNotificationTransformation(message);
+    }
+
+    @RabbitListener(queues = RabbitMQTopology.NEWGAME_QUEUE)
+    void onNewGameMessageReceived(GameCreatedInputDto message) {
+       // aclService.newGameMessageTransformation(message);
+    }
+
+    @RabbitListener(queues = RabbitMQTopology.ENDGAME_QUEUE)
+    void onGameEndMessageReceived(GameEndInputDto message) {
+        aclService.gameEndMessageTransformation(message);
     }
 
 }

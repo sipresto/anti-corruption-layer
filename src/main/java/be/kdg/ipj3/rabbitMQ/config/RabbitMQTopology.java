@@ -18,6 +18,12 @@ public class RabbitMQTopology {
     public static final String MOVEMADE_QUEUE = "move-made-queue";
     public static final String TURN_NOTIFICATION_QUEUE = "turn-notification-queue";
 
+    public static final String NEWGAME_QUEUE = "newgame-queue";
+    public static final String NEWSESSION_QUEUE = "newsession-queue";
+
+    public static final String ENDGAME_QUEUE = "endgame-queue";
+    public static final String RESULTS_QUEUE = "results-queue";
+
     @Bean
     public TopicExchange gameEventsExchange() {
         return new TopicExchange(GAME_EVENTS_EXCHANGE);
@@ -29,6 +35,30 @@ public class RabbitMQTopology {
     }
 
     //Receive
+    @Bean
+    Queue newGameQueue() {
+        return QueueBuilder.durable(NEWGAME_QUEUE).build();
+    }
+
+    @Bean
+    Binding newGameBinding(Queue newGameQueue, TopicExchange gameEventsExchange) {
+        return BindingBuilder.bind(newGameQueue)
+                .to(gameEventsExchange)
+                .with("game.created");
+    }
+
+    @Bean
+    Queue endGameQueue() {
+        return QueueBuilder.durable(ENDGAME_QUEUE).build();
+    }
+
+    @Bean
+    Binding endGameBinding(Queue endGameQueue, TopicExchange gameEventsExchange) {
+        return BindingBuilder.bind(endGameQueue)
+                .to(gameEventsExchange)
+                .with("game.ended");
+    }
+
     @Bean
     Queue registerGameQueue() {
         return QueueBuilder.durable(ACL_REGISTER_QUEUE).build();
