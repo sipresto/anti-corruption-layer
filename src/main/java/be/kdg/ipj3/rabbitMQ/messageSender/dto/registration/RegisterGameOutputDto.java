@@ -18,6 +18,7 @@ public record RegisterGameOutputDto(
         List<RegisterAchievementOutputDto> achievements,
         List<String> categories,
         String imageUrl,
-        @NotNull String timestamp
+        @NotNull String timestamp,
+        @NotNull int maxPlayers
 ) {
 }
