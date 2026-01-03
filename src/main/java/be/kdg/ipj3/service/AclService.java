@@ -1,14 +1,19 @@
 package be.kdg.ipj3.service;
 
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.AchievementInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.GameEndInputDto;
+import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.MoveMadeInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterAchievementInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterGameInputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.MessageSendHandler;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.AchievementOutputDto;
+import be.kdg.ipj3.rabbitMQ.messageSender.dto.GameResultMessageDto;
+import be.kdg.ipj3.rabbitMQ.messageSender.dto.TurnNotificationDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.registration.RegisterAchievementOutputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.registration.RegisterGameOutputDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,12 +29,37 @@ public class AclService {
     private static final Logger log = LoggerFactory.getLogger(AclService.class);
     private final MessageSendHandler messageSendHandler;
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
+    @Value("${backend.url}")
+    private String backendUrl;
+
     public AclService(MessageSendHandler messageSendHandler) {
         this.messageSendHandler = messageSendHandler;
     }
 
+    public void gameNotificationTransformation(MoveMadeInputDto message) {
+        log.info(message.toString());
+
+        String playerId = "";
+        if (message.player().equals("WHITE")) {
+            playerId = message.blackPlayerId().toString();
+        }
+        if (message.player().equals("BLACK")) {
+            playerId = message.whitePlayerId().toString();
+        }
+
+        var notifDto = new TurnNotificationDto(
+                playerId,
+                "It's your turn in Chess!"
+        );
+
+        messageSendHandler.sendTurnNotification(notifDto);
+    }
+
     public void gameRegistrationTransformation(RegisterGameInputDto message) {
         log.info(message.toString());
+
 
         var transformedDate = transformDateToInstant(message.timestamp());
 
@@ -43,8 +73,9 @@ public class AclService {
                 "Chess",
                 "A strategy game where you have to take your opponents king!",
                 BigDecimal.TEN,
-                message.frontendUrl(),
-                "Every piece has a set of moves they can do, if you are checked you can only move to prevent being checked, if you get checkmated you lose.",
+                backendUrl,
+                frontendUrl,
+                "Chess is a game where every piece has a set of moves they can do, if you are checked you can only move to prevent being checked, if you get checkmated you lose.",
                 transformedAchievements,
                 List.of("STRATEGY", "BOARDGAME", "EXTERNAL"),
                 message.pictureUrl(),
@@ -62,7 +93,7 @@ public class AclService {
         var transformedDate = transformDateToInstant(message.timestamp());
 
         var outputMessage = new AchievementOutputDto(
-                message.playerId(),
+                message.playerId().toString(),
                 message.gameId(),
                 message.achievementType(),
                 transformedDate.toString()
@@ -91,5 +122,34 @@ public class AclService {
 
     private Instant transformDateToInstant(LocalDateTime date) {
         return date.atZone(java.time.ZoneId.systemDefault()).toInstant();
+    }
+
+    public void gameEndMessageTransformation(GameEndInputDto message) {
+        log.info(message.toString());
+        String winnerId = null;
+        if ("WHITE".equals(message.winner())) {
+            winnerId = message.whitePlayerId().toString();
+        } else if ("BLACK".equals(message.winner())) {
+            winnerId = message.blackPlayerId().toString();
+        }
+        String status = "PLAYER_WIN";
+        if (winnerId == null) {
+            status = "DRAW";
+        }
+
+        List<String> players = List.of(
+                message.whitePlayerId().toString(),
+                message.blackPlayerId().toString()
+        );
+        var gameResult = new GameResultMessageDto(
+                message.gameId(),
+                players,
+                winnerId,
+                status,
+                transformDateToInstant(message.timestamp()),
+                true
+        );
+        log.info(gameResult.toString());
+        messageSendHandler.sendGameResult(gameResult);
     }
 }
