@@ -21,7 +21,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,10 +42,10 @@ public class AclService {
         log.info(message.toString());
 
         String playerId = "";
-        if(message.player().equals("WHITE")) {
+        if (message.player().equals("WHITE")) {
             playerId = message.blackPlayerId().toString();
         }
-        if(message.player().equals("BLACK")) {
+        if (message.player().equals("BLACK")) {
             playerId = message.whitePlayerId().toString();
         }
 

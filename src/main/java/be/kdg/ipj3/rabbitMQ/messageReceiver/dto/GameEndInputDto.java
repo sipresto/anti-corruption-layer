@@ -15,4 +15,5 @@ public record GameEndInputDto(
         int totalMoves,
         String messageType,
         LocalDateTime timestamp
-) {}
+) {
+}

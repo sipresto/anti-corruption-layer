@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQTopology {
-    public static final String GAME_EVENTS_EXCHANGE = "gameExchange";
+    public static final String GAME_EVENTS_EXCHANGE = "game-events-exchange";
     public static final String TURN_NOTIFICATIONS_EXCHANGE = "turn-notifications-exchange";
 
     public static final String ACL_REGISTER_QUEUE = "acl-register-game-queue";
@@ -82,7 +82,7 @@ public class RabbitMQTopology {
     }
 
 
-//    Send
+    //    Send
     @Bean
     Queue gameRegistrationQueue() {
         return QueueBuilder.durable(GAME_REGISTRATION_QUEUE).build();
@@ -111,6 +111,7 @@ public class RabbitMQTopology {
     Queue turnNotificationQueue() {
         return QueueBuilder.durable(TURN_NOTIFICATION_QUEUE).build();
     }
+
     @Bean
     Binding turnNotificationBinding(Queue turnNotificationQueue, TopicExchange notificationsExchange) {
         return BindingBuilder.bind(turnNotificationQueue)
@@ -122,6 +123,7 @@ public class RabbitMQTopology {
     Queue resultsQueue() {
         return QueueBuilder.durable(SESSION_GAME_RESULTS_QUEUE).build();
     }
+
     @Bean
     Binding resultsBinding(Queue resultsQueue, TopicExchange notificationsExchange) {
         return BindingBuilder.bind(resultsQueue)
