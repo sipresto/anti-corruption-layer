@@ -34,11 +34,6 @@ public class MessageReceiveHandler {
         aclService.gameNotificationTransformation(message);
     }
 
-    @RabbitListener(queues = RabbitMQTopology.NEWGAME_QUEUE)
-    void onNewGameMessageReceived(GameCreatedInputDto message) {
-       // aclService.newGameMessageTransformation(message);
-    }
-
     @RabbitListener(queues = RabbitMQTopology.ENDGAME_QUEUE)
     void onGameEndMessageReceived(GameEndInputDto message) {
         aclService.gameEndMessageTransformation(message);

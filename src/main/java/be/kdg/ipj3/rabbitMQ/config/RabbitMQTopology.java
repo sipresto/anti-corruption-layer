@@ -18,8 +18,6 @@ public class RabbitMQTopology {
     public static final String MOVEMADE_QUEUE = "move-made-queue";
     public static final String TURN_NOTIFICATION_QUEUE = "turn-notification-queue";
 
-    public static final String NEWGAME_QUEUE = "newgame-queue";
-    public static final String NEWSESSION_QUEUE = "newsession-queue";
 
     public static final String ENDGAME_QUEUE = "endgame-queue";
     public static final String RESULTS_QUEUE = "results-queue";
@@ -34,18 +32,6 @@ public class RabbitMQTopology {
         return new TopicExchange(TURN_NOTIFICATIONS_EXCHANGE);
     }
 
-    //Receive
-    @Bean
-    Queue newGameQueue() {
-        return QueueBuilder.durable(NEWGAME_QUEUE).build();
-    }
-
-    @Bean
-    Binding newGameBinding(Queue newGameQueue, TopicExchange gameEventsExchange) {
-        return BindingBuilder.bind(newGameQueue)
-                .to(gameEventsExchange)
-                .with("game.created");
-    }
 
     @Bean
     Queue endGameQueue() {
@@ -97,39 +83,50 @@ public class RabbitMQTopology {
 
 
     //Send
-    @Bean
-    Queue gameRegistrationQueue() {
-        return QueueBuilder.durable(GAME_REGISTRATION_QUEUE).build();
-    }
-
-    @Bean
-    Binding registrationsBinding(Queue gameRegistrationQueue, TopicExchange gameEventsExchange) {
-        return BindingBuilder.bind(gameRegistrationQueue)
-                .to(gameEventsExchange)
-                .with("game.register.*");
-    }
-
-    @Bean
-    Queue achievementCompletedQueue() {
-        return QueueBuilder.durable(ACHIEVEMENT_COMPLETED_QUEUE).build();
-    }
-
-    @Bean
-    Binding achievementCompletedBinding(Queue achievementCompletedQueue, TopicExchange gameEventsExchange) {
-        return BindingBuilder.bind(achievementCompletedQueue)
-                .to(gameEventsExchange)
-                .with("achievement.completed.*");
-    }
-
-    @Bean
-    Queue turnNotificationQueue() {
-        return QueueBuilder.durable(TURN_NOTIFICATION_QUEUE).build();
-    }
-    @Bean
-    Binding turnNotificationBinding(Queue turnNotificationQueue, TopicExchange notificationsExchange) {
-        return BindingBuilder.bind(turnNotificationQueue)
-                .to(notificationsExchange)
-                .with("turn.notification.*");
-    }
+//    @Bean
+//    Queue gameRegistrationQueue() {
+//        return QueueBuilder.durable(GAME_REGISTRATION_QUEUE).build();
+//    }
+//
+//    @Bean
+//    Binding registrationsBinding(Queue gameRegistrationQueue, TopicExchange gameEventsExchange) {
+//        return BindingBuilder.bind(gameRegistrationQueue)
+//                .to(gameEventsExchange)
+//                .with("game.register.*");
+//    }
+//
+//    @Bean
+//    Queue achievementCompletedQueue() {
+//        return QueueBuilder.durable(ACHIEVEMENT_COMPLETED_QUEUE).build();
+//    }
+//
+//    @Bean
+//    Binding achievementCompletedBinding(Queue achievementCompletedQueue, TopicExchange gameEventsExchange) {
+//        return BindingBuilder.bind(achievementCompletedQueue)
+//                .to(gameEventsExchange)
+//                .with("achievement.completed.*");
+//    }
+//
+//    @Bean
+//    Queue turnNotificationQueue() {
+//        return QueueBuilder.durable(TURN_NOTIFICATION_QUEUE).build();
+//    }
+//    @Bean
+//    Binding turnNotificationBinding(Queue turnNotificationQueue, TopicExchange notificationsExchange) {
+//        return BindingBuilder.bind(turnNotificationQueue)
+//                .to(notificationsExchange)
+//                .with("turn.notification.*");
+//    }
+//
+//    @Bean
+//    Queue resultsQueue() {
+//        return QueueBuilder.durable(RESULTS_QUEUE).build();
+//    }
+//    @Bean
+//    Binding resultsBinding(Queue resultsQueue, TopicExchange notificationsExchange) {
+//        return BindingBuilder.bind(resultsQueue)
+//                .to(notificationsExchange)
+//                .with("game.result.*");
+//    }
 
 }

@@ -7,6 +7,7 @@ import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterAchievement
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterGameInputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.MessageSendHandler;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.AchievementOutputDto;
+import be.kdg.ipj3.rabbitMQ.messageSender.dto.GameResultMessageDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.TurnNotificationDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.registration.RegisterAchievementOutputDto;
 import be.kdg.ipj3.rabbitMQ.messageSender.dto.registration.RegisterGameOutputDto;
@@ -121,15 +122,28 @@ public class AclService {
     private Instant transformDateToInstant(LocalDateTime date) {
         return date.atZone(java.time.ZoneId.systemDefault()).toInstant();
     }
-/*TODO DIT HOEFT NIET ALS JE SESSION FIXED IN GAME PLATFORM*/
-//    public void newGameMessageTransformation(GameCreatedInputDto message) {
-//        log.info(message.toString());
-//        var createdGame = new GameCreatedOutputDto(
-//                message.gameId(),
-//                )
-//        messageSendHandler.sendNewSession(createdGame)
-//    }
+
     public void gameEndMessageTransformation(GameEndInputDto message) {
         log.info(message.toString());
+        String winnerId = null;
+        if ("WHITE".equals(message.winner())) {
+            winnerId = message.whitePlayerId().toString();
+        } else if ("BLACK".equals(message.winner())) {
+            winnerId = message.blackPlayerId().toString();
+        }
+        List<String> players = List.of(
+                message.whitePlayerId().toString(),
+                message.blackPlayerId().toString()
+        );
+        var gameResult = new GameResultMessageDto(
+                message.gameId(),
+                players,
+                winnerId,
+                message.endReason(),
+                transformDateToInstant(message.timestamp()),
+                true
+        );
+
+        messageSendHandler.sendGameResult(gameResult);
     }
 }
