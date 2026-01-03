@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -131,6 +132,11 @@ public class AclService {
         } else if ("BLACK".equals(message.winner())) {
             winnerId = message.blackPlayerId().toString();
         }
+        String status = "PLAYER_WIN";
+        if (winnerId == null) {
+            status = "DRAW";
+        }
+
         List<String> players = List.of(
                 message.whitePlayerId().toString(),
                 message.blackPlayerId().toString()
@@ -139,11 +145,11 @@ public class AclService {
                 message.gameId(),
                 players,
                 winnerId,
-                message.endReason(),
+                status,
                 transformDateToInstant(message.timestamp()),
                 true
         );
-
+        log.info(gameResult.toString());
         messageSendHandler.sendGameResult(gameResult);
     }
 }

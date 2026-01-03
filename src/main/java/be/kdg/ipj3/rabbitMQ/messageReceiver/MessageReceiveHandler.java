@@ -2,7 +2,6 @@ package be.kdg.ipj3.rabbitMQ.messageReceiver;
 
 import be.kdg.ipj3.rabbitMQ.config.RabbitMQTopology;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.AchievementInputDto;
-import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.GameCreatedInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.GameEndInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.MoveMadeInputDto;
 import be.kdg.ipj3.rabbitMQ.messageReceiver.dto.registration.RegisterGameInputDto;
