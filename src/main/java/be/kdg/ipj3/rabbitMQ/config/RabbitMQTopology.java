@@ -9,7 +9,7 @@ public class RabbitMQTopology {
     public static final String GAME_EVENTS_EXCHANGE = "game-events-exchange";
     public static final String TURN_NOTIFICATIONS_EXCHANGE = "turn-notifications-exchange";
 
-    public static final String ACL_REGISTER_QUEUE = "acl-register-game-queue";
+    public static final String ACL_REGISTER_QUEUE = "test.queue";
     public static final String ACHIEVEMENT_MADE_QUEUE = "achievement-made-queue";
 
     public static final String GAME_REGISTRATION_QUEUE = "game-registration-queue";
