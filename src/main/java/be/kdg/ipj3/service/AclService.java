@@ -71,7 +71,7 @@ public class AclService {
         var outputMessage = new RegisterGameOutputDto(
                 message.registrationId(),
                 "Chess",
-                "A strategy game where you have to take your opponents king!",
+                "Chess is a two-player, abstract strategy board game of profound complexity. Played on an 8x8 grid, each player commands a set of 16 distinct pieces with prescribed movements. The primary objective is to place the opponent's king under an inescapable attack (checkmate). This requires the sophisticated integration of tactical calculation, positional strategy, and long-term planning, making it one of the world's oldest and most deeply studied intellectual contests.",
                 BigDecimal.TEN,
                 backendUrl,
                 frontendUrl,
